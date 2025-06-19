@@ -81,6 +81,10 @@ input:focus {
      
 }
 
+input:user-invalid {
+    box-shadow: inset 0 0 20px rgba(255, 38, 0, 0.654), 7px 7px 10px rgba(237, 198, 198, 0.178);
+}
+
 #submit, .restart {
     
     all: unset;
@@ -145,3 +149,5 @@ input:focus {
     background-position: center;
     background-size: 70%;
 }
+
+

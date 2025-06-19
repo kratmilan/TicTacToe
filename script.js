@@ -4,9 +4,9 @@ const Gameboard  = function () {
     return {array, turn}
 }
 function Player(name, mark) {
+    name[0] = name[0].toUpperCase()
     this.name =name
     this.mark = mark
-    this.isWinner = false
 }
 
 let board = Gameboard()
@@ -24,28 +24,17 @@ function showText() {
     return str
 }
 
-function mark (board, spot,spotElement) {
+function mark (spot,spotElement) {
     board.array[spot] = board.turn
     spotElement.classList.add(board.turn === "x" ? "svgCross" : "svgCircle");
    
     board.turn = board.turn=="x" ? "o" :"x"
     document.querySelector('.textContainer').textContent = showText()
-    console.log("marking")
-    console.log(checkTable(board))
     
 }
 
-function printTable(board) {
-    console.log(`${board.array[0]} | ${board.array[1]} | ${board.array[2]} `)
-    console.log("---------")
-    console.log(`${board.array[3]} | ${board.array[4]} | ${board.array[5]} `)
-    console.log("---------")
-    console.log(`${board.array[6]} | ${board.array[7]} | ${board.array[8]} `)
-}
-
-function checkTable(board) {
+function checkTable() {
     let turn = board.turn=="x" ? "o" : "x"
-    console.log("checking")
     let win = false
     if (board.array[0] == board.array[1] && board.array[0] == board.array[2] && board.array[0] == turn) win = true
     else if (board.array[3] == board.array[4] && board.array[3] == board.array[5] && board.array[3] == turn) win = true
@@ -58,15 +47,13 @@ function checkTable(board) {
     else if (board.array[0] == board.array[4] && board.array[0] == board.array[8] && board.array[0] == turn) win = true
     else if (board.array[2] == board.array[4] && board.array[2] == board.array[6] && board.array[2] == turn) win = true
 
-    if (win) {
-        if (turn == "x") winner = p1
-        else winner = p2
-        announceWinner()
-    }
+    return win
+    
     
 }
-function announceWinner() {
-    document.querySelector('.textContainer').innerHTML = `Congratulations!<br>${winner.name} won the game!`;
+function announceWinner(win) {
+    if (win) document.querySelector('.textContainer').innerHTML = `Congratulations!<br>${winner.name} won the game!`;
+    else document.querySelector('.textContainer').innerHTML = "Tie! Please play again!";
     document.querySelectorAll(".spot").forEach(btn => btn.disabled = true);
 
     const restart = document.createElement("button") 
@@ -106,7 +93,17 @@ function createBoard() {
         boardContainer.appendChild(spot)
         spot.addEventListener("click", function () {
             if (board.array[i] ==" "){
-            mark(board,i,spot)
+            mark(i,spot)
+            let win = checkTable()
+            if (win) {
+                console.log(board.turn)
+                if (board.turn == "o") winner = p1
+                else winner = p2
+                announceWinner(win)
+            }
+            if (!board.array.includes(" ")) {
+                announceWinner(win)
+            }
             
             }
         })
