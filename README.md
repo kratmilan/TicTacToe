@@ -7,4 +7,4 @@
   
 📗What I've learned: CSS, Object factories, designing a project📗  
 
-👀Check the project out: https://kratmilan.github.io/TicTacToe/
+👀 https://kratmilan.github.io/TicTacToe/
